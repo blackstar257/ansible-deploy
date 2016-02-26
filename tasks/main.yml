@@ -1,0 +1,15 @@
+---
+- name: Create SSH Folder
+  file: path=/root/.ssh state=directory mode=0700 owner=root
+
+- name: Decoding Github Private Key
+  local_action: shell echo {{github_private_key}} |base64 --decode
+  register: ssh_github_key_decoded
+  sudo: false
+
+- name: Put Github Key
+  template: src=github_key.j2 dest=/root/.ssh/github mode=0600 owner=root
+
+- name: Add github.com to ssh config
+  ssh_config: host=github.com hostname=github.com remote_user=git
+              identity_file=/root/.ssh/github port=22 state=present
