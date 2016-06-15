@@ -1,2 +1,4 @@
 ---
-github_private_key: None
+deploy_github_private_key: None
+deploy_local_user: root
+deploy_local_user_home: /root/

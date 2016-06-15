@@ -1,15 +1,28 @@
 ---
-- name: Create SSH Folder
-  file: path=/root/.ssh state=directory mode=0700 owner=root
+- name: figure out the user home directory
+  set_fact: deploy_local_user_home="{{ ansible_env.HOME}}"
+  become: true
+  become_user: "{{ deploy_local_user }}"
 
-- name: Decoding Github Private Key
-  local_action: shell echo {{github_private_key}} |base64 --decode
-  register: ssh_github_key_decoded
-  sudo: false
+- name: Create SSH Folder
+  file:
+    path="/{{ deploy_local_user }}/.ssh"
+    state=directory
+    mode=0700
+    owner="{{ deploy_local_user }}"
 
 - name: Put Github Key
-  template: src=github_key.j2 dest=/root/.ssh/github mode=0600 owner=root
+  template:
+    src=github_key.j2
+    dest="/{{ deploy_local_user }}/.ssh/github"
+    mode=0600
+    owner="{{ deploy_local_user }}"
 
 - name: Add github.com to ssh config
-  ssh_config: host=github.com hostname=github.com remote_user=git
-              identity_file=/root/.ssh/github port=22 state=present
+  ssh_config:
+    host=github.com
+    hostname=github.com
+    remote_user=git
+    identity_file="/{{ deploy_local_user }}/.ssh/github"
+    port=22
+    state=present
