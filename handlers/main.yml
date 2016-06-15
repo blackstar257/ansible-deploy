@@ -2,5 +2,4 @@
 - name: remove github key
   file:
     path="/{{ deploy_local_user_home }}/.ssh/github"
-    owner="{{ deploy_local_user }}"
     state=absent

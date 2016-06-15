@@ -11,14 +11,6 @@
     mode=0700
     owner="{{ deploy_local_user }}"
 
-- name: put github key
-  template:
-    src=github_key.j2
-    dest="/{{ deploy_local_user_home }}/.ssh/github"
-    mode=0600
-    owner="{{ deploy_local_user }}"
-  notify: remove github key
-
 - name: add github.com to users ssh config
   ssh_config:
     host=github.com
@@ -27,3 +19,11 @@
     identity_file="/{{ deploy_local_user_home }}/.ssh/github"
     port=22
     state=present
+
+- name: put github key
+  template:
+    src=github_key.j2
+    dest="/{{ deploy_local_user_home }}/.ssh/github"
+    mode=0600
+    owner="{{ deploy_local_user }}"
+  notify: remove github key
