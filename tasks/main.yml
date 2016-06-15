@@ -1,4 +1,8 @@
 ---
+- name:   Registering handler
+  shell:  /bin/true
+  notify: remove github key
+
 - name: create user ssh folder
   file:
     path="{{ deploy_local_user_home }}/.ssh"
@@ -12,7 +16,6 @@
     dest="{{ deploy_local_user_home }}/.ssh/github"
     mode=0600
     owner="{{ deploy_local_user }}"
-  notify: remove github key
 
 - name: add github.com to users ssh config
   ssh_config:
