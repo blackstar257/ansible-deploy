@@ -1,29 +1,24 @@
 ---
-- name: figure out the user home directory
-  set_fact: deploy_local_user_home="{{ ansible_env.HOME}}"
-  become: true
-  become_user: "{{ deploy_local_user }}"
-
 - name: create user ssh folder
   file:
-    path="/{{ deploy_local_user_home }}/.ssh"
+    path="{{ deploy_local_user_home }}/.ssh"
     state=directory
     mode=0700
     owner="{{ deploy_local_user }}"
+
+- name: put github key
+  template:
+    src=github_key.j2
+    dest="{{ deploy_local_user_home }}/.ssh/github"
+    mode=0600
+    owner="{{ deploy_local_user }}"
+  notify: remove github key
 
 - name: add github.com to users ssh config
   ssh_config:
     host=github.com
     hostname=github.com
     remote_user=git
-    identity_file="/{{ deploy_local_user_home }}/.ssh/github"
+    identity_file="{{ deploy_local_user_home }}/.ssh/github"
     port=22
     state=present
-
-- name: put github key
-  template:
-    src=github_key.j2
-    dest="/{{ deploy_local_user_home }}/.ssh/github"
-    mode=0600
-    owner="{{ deploy_local_user }}"
-  notify: remove github key
