@@ -4,7 +4,7 @@
   become: true
   become_user: "{{ deploy_local_user }}"
 
-- name: Create SSH Folder
+- name: create user ssh folder
   file:
     path="/{{ deploy_local_user_home }}/.ssh"
     state=directory
@@ -19,7 +19,7 @@
     owner="{{ deploy_local_user }}"
   notify: remove github key
 
-- name: Add github.com to ssh config
+- name: add github.com to users ssh config
   ssh_config:
     host=github.com
     hostname=github.com
