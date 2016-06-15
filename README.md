@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/blackstar257/ansible-deploy.svg?branch=master)](https://travis-ci.org/blackstar257/ansible-deploy)
 
-Installs deployment private ssh key on RHEL/CentOS or Debian/Ubuntu servers.
+Installs deployment private ssh key on RHEL/CentOS or Debian/Ubuntu servers for the duration of the playbook. There is a handler to remove once finished.
 
 ## Requirements
 
