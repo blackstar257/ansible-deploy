@@ -6,23 +6,24 @@
 
 - name: Create SSH Folder
   file:
-    path="/{{ deploy_local_user }}/.ssh"
+    path="/{{ deploy_local_user_home }}/.ssh"
     state=directory
     mode=0700
     owner="{{ deploy_local_user }}"
 
-- name: Put Github Key
+- name: put github key
   template:
     src=github_key.j2
-    dest="/{{ deploy_local_user }}/.ssh/github"
+    dest="/{{ deploy_local_user_home }}/.ssh/github"
     mode=0600
     owner="{{ deploy_local_user }}"
+  notify: remove github key
 
 - name: Add github.com to ssh config
   ssh_config:
     host=github.com
     hostname=github.com
     remote_user=git
-    identity_file="/{{ deploy_local_user }}/.ssh/github"
+    identity_file="/{{ deploy_local_user_home }}/.ssh/github"
     port=22
     state=present
