@@ -1,6 +1,7 @@
 # Ansible Role: deploy
 
 [![Build Status](https://travis-ci.org/blackstar257/ansible-role-deploy.svg?branch=master)](https://travis-ci.org/blackstar257/ansible-role-deploy)
+
 Installs deployment private ssh key on RHEL/CentOS or Debian/Ubuntu servers for the duration of the playbook. There is a handler to remove once finished.
 
 ## Requirements
