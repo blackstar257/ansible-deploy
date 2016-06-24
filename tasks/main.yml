@@ -10,12 +10,21 @@
     mode=0700
     owner="{{ deploy_local_user }}"
 
-- name: put github key
+- name: put github key from template
   template:
     src=github_key.j2
     dest="{{ deploy_local_user_home }}/.ssh/github"
     mode=0600
     owner="{{ deploy_local_user }}"
+  when: not deploy_use_local_file
+
+- name: put github key from file
+  copy:
+    src="{{ deploy_github_private_key_file }}"
+    dest="{{ deploy_local_user_home }}/.ssh/github"
+    mode=0600
+    owner="{{ deploy_local_user }}"
+  when: deploy_use_local_file
 
 - name: add github.com to users ssh config
   ssh_config:

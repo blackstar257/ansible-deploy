@@ -4,7 +4,8 @@ language: python
 python: "2.7"
 
 env:
-  - SITE=test.yml
+  - SITE=test_0.yml
+  - SITE=test_1.yml
 
 before_install:
   - sudo apt-get update -qq
