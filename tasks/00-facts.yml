@@ -1,0 +1,19 @@
+---
+- name:   Registering handler
+  shell:  /bin/true
+  notify: remove github key
+
+- name: read github key from local file
+  set_fact:
+     key_decrypted: "{{ lookup('file', '{{ deploy_github_private_key_file }}') }}"
+  when: deploy_use_local_file
+
+- name: read github key from string
+  set_fact:
+     key_decrypted: "{{ deploy_github_private_key|b64decode }}"
+  when: not deploy_use_local_file
+
+- name: check github key for password
+  set_fact:
+     deploy_encrypted_private_key: True
+  when: "ENCRYPTED" in key_decrypted

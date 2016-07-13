@@ -4,3 +4,4 @@ deploy_use_local_file: False
 deploy_github_private_key_file: ~/.ssh/id_rsa
 deploy_local_user: root
 deploy_local_user_home: /root
+deploy_encrypted_private_key: False

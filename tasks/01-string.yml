@@ -1,0 +1,7 @@
+---
+- name: put github key from template
+  template:
+    src=github_key.j2
+    dest="{{ deploy_local_user_home }}/.ssh/github"
+    mode=0600
+    owner="{{ deploy_local_user }}"

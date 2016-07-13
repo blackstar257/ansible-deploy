@@ -6,6 +6,8 @@ python: "2.7"
 env:
   - SITE=test_0.yml
   - SITE=test_1.yml
+  - SITE=test_2.yml
+  - SITE=test_3.yml
 
 before_install:
   - sudo apt-get update -qq
