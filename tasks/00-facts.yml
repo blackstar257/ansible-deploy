@@ -16,4 +16,4 @@
 - name: check github key for password
   set_fact:
      deploy_encrypted_private_key: True
-  when: "ENCRYPTED" in key_decrypted
+  when: '"ENCRYPTED" in key_decrypted'
