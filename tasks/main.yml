@@ -1,26 +1,58 @@
 ---
-- include: 00-facts.yml
+- name: register handler
+  set_fact:
+    deploy_handler_set: true
+  notify: remove ssh key
 
-- name: create user ssh folder
+- name: read ssh key from local file
+  set_fact:
+    key_decrypted: "{{ lookup('file', '{{ deploy_ssh_private_key_file }}') }}"
+  when: deploy_use_local_file
+
+- name: read ssh key from string
+  set_fact:
+    key_decrypted: "{{ deploy_ssh_private_key|b64decode }}"
+  when: not deploy_use_local_file
+
+- name: check ssh key for password
+  set_fact:
+    deploy_encrypted_private_key: true
+  when: '"ENCRYPTED" in key_decrypted'
+
+- name: ensure user ssh folder
   file:
-    path="{{ deploy_local_user_home }}/.ssh"
-    state=directory
-    mode=0700
-    owner="{{ deploy_local_user }}"
+    path: "{{ deploy_local_user_home }}/.ssh"
+    state: directory
+    mode: 0700
+    owner: "{{ deploy_local_user }}"
   when: not deploy_encrypted_private_key
 
-- include: 01-string.yml
+- name: put ssh key from string
+  copy:
+    content: "{{ deploy_ssh_private_key | b64decode }}"
+    dest: "{{ deploy_local_user_home }}/.ssh/ansible_deploy"
+    mode: 0600
+    owner: "{{ deploy_local_user }}"
   when: not deploy_use_local_file and not deploy_encrypted_private_key
+  changed_when: false
 
-- include: 01-file.yml
+- name: put ssh key from file
+  copy:
+    src: "{{ deploy_ssh_private_key_file }}"
+    dest: "{{ deploy_local_user_home }}/.ssh/ansible_deploy"
+    mode: 0600
+    owner: "{{ deploy_local_user }}"
   when: deploy_use_local_file and not deploy_encrypted_private_key
+  changed_when: false
 
 - name: add github.com to users ssh config
   ssh_config:
-    host=github.com
-    hostname=github.com
-    remote_user=git
-    identity_file="{{ deploy_local_user_home }}/.ssh/github"
-    port=22
-    state=present
+    host: github.com
+    hostname: github.com
+    remote_user: git
+    identity_file: "{{ deploy_local_user_home }}/.ssh/ansible_deploy"
+    port: 22
+    state: present
   when: not deploy_encrypted_private_key
+  notify: remove ssh config
+  changed_when: false

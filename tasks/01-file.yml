@@ -1,7 +1,0 @@
----
-- name: put github key from file
-  copy:
-    src="{{ deploy_github_private_key_file }}"
-    dest="{{ deploy_local_user_home }}/.ssh/github"
-    mode=0600
-    owner="{{ deploy_local_user }}"

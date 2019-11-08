@@ -1,5 +1,16 @@
 ---
-- name: remove github key
+- name: remove ssh key
   file:
-    path="{{ deploy_local_user_home }}/.ssh/github"
-    state=absent
+    path: "{{ deploy_local_user_home }}/.ssh/ansible_deploy"
+    state: absent
+  changed_when: false
+
+- name: remove ssh config
+  ssh_config:
+    host: github.com
+    hostname: github.com
+    remote_user: git
+    identity_file: "{{ deploy_local_user_home }}/.ssh/ansible_deploy"
+    port: 22
+    state: absent
+  changed_when: false
