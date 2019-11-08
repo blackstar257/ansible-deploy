@@ -5,13 +5,18 @@ galaxy_info:
   author: blackstar257
   description: Installs deployment private ssh key for GitHub
   company: None
-  license: BSD
+  license: MIT
   min_ansible_version: 2.6
   platforms:
     - name: EL
       versions:
-        - 6
-        - 7
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
   galaxy_tags:
     - deploy
     - github
