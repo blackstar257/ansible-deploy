@@ -5,7 +5,7 @@
     state: absent
   changed_when: false
 
-- name: rremove ssh config
+- name: remove ssh config
   ssh_config:
     host: github.com
     hostname: github.com
