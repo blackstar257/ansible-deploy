@@ -16,7 +16,7 @@
 
 - name: check ssh key for password
   set_fact:
-    deploy_encrypted_private_key: True
+    deploy_encrypted_private_key: true
   when: '"ENCRYPTED" in key_decrypted'
 
 - name: ensure user ssh folder
@@ -34,6 +34,7 @@
     mode: 0600
     owner: "{{ deploy_local_user }}"
   when: not deploy_use_local_file and not deploy_encrypted_private_key
+  changed_when: false
 
 - name: put ssh key from file
   copy:
@@ -42,6 +43,7 @@
     mode: 0600
     owner: "{{ deploy_local_user }}"
   when: deploy_use_local_file and not deploy_encrypted_private_key
+  changed_when: false
 
 - name: add github.com to users ssh config
   ssh_config:
@@ -52,3 +54,5 @@
     port: 22
     state: present
   when: not deploy_encrypted_private_key
+  notify: remove ssh config
+  changed_when: false
