@@ -1,7 +1,7 @@
 # Ansible Role: deploy
 
 [![Ansible Role](https://img.shields.io/badge/role-blackstar257.deploy-blue.svg)](https://galaxy.ansible.com/blackstar257/deploy/)
-[![Build Status](https://travis-ci.org/blackstar257/ansible-deploy.svg?branch=master)](https://travis-ci.org/blackstar257/ansible-deploy)
+[![Build Status](https://travis-ci.com/blackstar257/ansible-deploy.svg?branch=master)](https://travis-ci.com/blackstar257/ansible-deploy)
 
 Installs deployment private ssh key for GitHub on RHEL/CentOS or Debian/Ubuntu servers for the duration of the playbook. There is a handler to remove once finished.
 
